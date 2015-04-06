@@ -1,0 +1,4 @@
+[package]
+name = "voxel"
+version = "0.0.1"
+authors = ["Daniel Fagnan <dnfagnan@gmail.com>"]
