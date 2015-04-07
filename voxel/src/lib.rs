@@ -1,4 +1,3 @@
-pub struct Voxel {
-}
-
+#![feature(custom_derive)]
+pub mod octree;
 
