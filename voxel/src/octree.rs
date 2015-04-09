@@ -1,172 +1,96 @@
-use std::rc::{Rc, Weak};
 use std::fmt::Debug;
 use std::fmt::Display;
-
-pub type OctreeVec<T> = Vec<Octree<T>>;
+use chunk::Chunk;
+use block::Block;
 
 #[derive(Display, Debug)]
 pub struct Point(f32, f32, f32);
 
 #[derive(Debug)]
-pub struct Octree<T> {
-    root: Node<T>
+pub struct Octree {
+    root: Node
 }
 
 #[derive(Debug, Clone)]
-pub struct Node<T> {
-    // center: Point,
-    elem: Option<T>,
-    child: Vec<Box<Node<T>>>
+pub struct Node {
+    /// The index of the block in a separate data structure like
+    /// a list/vector.
+    id: usize,
+    children: Vec<Node>
 }
 
-impl<T> Node<T> {
-    pub fn new(nodes: Vec<Box<Node<T>>>) -> Node<T> {
+/// Maximum octree depth that will be computed unless
+/// we hit the leaf nodes before the given maximum.
+pub struct Depth(u16);
+
+/// Determine if a voxel intersects within some arbitrary boundary.
+/// This is used when we're constructing our octree and if a boundary
+/// intersects, we'll proceed to subdivide it unless we hit our specified
+/// depth limit.
+fn intersected() -> bool {
+    false
+}
+
+impl Node {
+    pub fn new(nodes: Vec<Node>) -> Node {
         Node {
-            elem: None,
-            child: nodes
+            id: 0,
+            children: nodes
         }
     }
 
-    pub fn from_block(block: T) -> Node<T> {
+    pub fn from_index(index: usize) -> Node {
         Node {
-            elem: Some(block),
-            child: Vec::new()
+            id: index,
+            children: Vec::new()
         }
     }
 }
 
-impl<T> Octree<T> where T: Debug, T: Clone {
-    pub fn new(blocks: &[T]) -> Octree<T> {
+impl Octree {
+    pub fn new<B: Block>(chunk: &Chunk<B>, resolution: Depth) -> Octree {
+        for (i, block) in chunk.blocks().iter().enumerate() {
+            
+        }
+
         Octree {
-            root: Octree::combine_leafs(blocks)
-        }
-    }
-
-    /// &[T] chunks 8
-    /// for each block, create a new node.
-    /// &[Node<T>; 8] -> Node<T> -> Vec<Node<T>>
-    pub fn combine_leafs(blocks: &[T]) -> Node<T> {
-        let mut groups = Vec::new();
-
-        for chunk in blocks.chunks(8) {
-            let mut chunk_nodes = Vec::with_capacity(8);
-
-            for block in chunk.iter().cloned() {
-                chunk_nodes.push(Box::new(Node::from_block(block)));
+            root: Node {
+                id: 0,
+                children: Vec::new()
             }
-
-            groups.push(Node::new(chunk_nodes));
         }
-
-        return Octree::combine_groups(groups);
     }
 
-    pub fn combine_groups(mut groups: Vec<Node<T>>) -> Node<T> {
-        let mut new_groups = Vec::new();
-
-        for chunk in groups.chunks(8) {
-            let mut chunk_nodes = Vec::with_capacity(8);
-
-            for block in chunk.iter().cloned() {
-                chunk_nodes.push(Box::new(block));
-            }
-
-            new_groups.push(Node::new(chunk_nodes));
-        }
-
-        if (new_groups.len() == 1) {
-            return new_groups.pop().unwrap();
-        }
-
-        return Octree::combine_groups(new_groups);
-    }
 }
 
 #[cfg(test)]
 mod test {
     use super::*;
     use std::fmt::Debug;
+    use block::Block;
+    use chunk::Chunk;
 
     #[derive(Debug, Copy, Clone)]
-    struct Block(bool);
+    struct Atom(bool, (f32, f32, f32));
+
+    impl Block for Atom {
+        fn is_visible(&self) -> bool {
+            self.0
+        }
+
+        fn pos(&self) -> (f32, f32, f32) {
+            self.1
+        }
+    }
 
     #[test]
     fn divide() {
-        let blocks = &[
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
+        let mut chunk = Chunk::new((0.0, 0.0, 0.0));
 
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
+        for n in 0..96 {
+            chunk.add(Atom(true, (n as f32, (n - 20) as f32, 0.0)));
+        }
 
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true),
-            Block(true)
-        ];
-
-        let tree = Octree::new(blocks);
-        assert_eq!(tree.root.child.len(), 8);
+        let tree = Octree::new(&chunk, Depth(4));
     }
 }

@@ -3,8 +3,8 @@ name = "mygame"
 version = "0.0.1"
 authors = ["Daniel Fagnan <dnfagnan@gmail.com>"]
 
-[dependencies.pistoncore-glutin_window]
-git = "https://github.com/PistonDevelopers/glutin_window"
+[dependencies.pistoncore-glfw_window]
+git = "https://github.com/PistonDevelopers/glfw_window"
 
 [dependencies.piston]
 git = "https://github.com/PistonDevelopers/piston.git"
@@ -17,3 +17,12 @@ git = "https://github.com/gfx-rs/gfx-rs"
 
 [dependencies.gfx_macros]
 git = "https://github.com/gfx-rs/gfx_macros"
+
+[dependencies.gfx_device_gl]
+git = "https://github.com/gfx-rs/gfx_device_gl"
+
+[dependencies.camera_controllers]
+git = "https://github.com/PistonDevelopers/camera_controllers"
+
+[dependencies.vecmath]
+git = "https://github.com/PistonDevelopers/vecmath"
