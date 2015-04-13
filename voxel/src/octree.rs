@@ -2,6 +2,7 @@ use std::fmt::Debug;
 use std::fmt::Display;
 use chunk::Chunk;
 use block::Block;
+use cgmath::Vector3;
 
 #[derive(Display, Debug)]
 pub struct Point(f32, f32, f32);
@@ -50,7 +51,6 @@ impl Node {
 impl Octree {
     pub fn new<B: Block>(chunk: &Chunk<B>, resolution: Depth) -> Octree {
         for (i, block) in chunk.blocks().iter().enumerate() {
-            
         }
 
         Octree {

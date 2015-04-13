@@ -2,3 +2,12 @@
 name = "voxel"
 version = "0.0.1"
 authors = ["Daniel Fagnan <dnfagnan@gmail.com>"]
+
+[dependencies.cgmath]
+git = "https://github.com/bjz/cgmath-rs"
+
+[dependencies.noise]
+git = "https://github.com/bjz/noise-rs"
+
+[dependencies.fps_counter]
+git = "https://github.com/PistonDevelopers/fps_counter"
