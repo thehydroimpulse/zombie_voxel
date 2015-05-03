@@ -11,3 +11,15 @@ git = "https://github.com/bjz/noise-rs"
 
 [dependencies.fps_counter]
 git = "https://github.com/PistonDevelopers/fps_counter"
+
+[dependencies.shader_version]
+git = "https://github.com/PistonDevelopers/shader_version"
+
+[dependencies.gfx]
+git = "https://github.com/gfx-rs/gfx-rs"
+
+[dependencies.gfx_macros]
+git = "https://github.com/gfx-rs/gfx_macros"
+
+[dependencies.gfx_device_gl]
+git = "https://github.com/gfx-rs/gfx_device_gl"

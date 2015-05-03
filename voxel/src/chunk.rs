@@ -1,14 +1,20 @@
 use block::{Material, Block};
 use cgmath::Vector3;
 
+const CHUNK_SIZE: usize = 500;
+
 pub struct Chunk {
-    // size = 500
-    // Vec::with_capacity(500);
-    // blocks[x + y + z] = block;
+    // A sequentially allocated set of blocks. This vector holds
+    // blocks where the index encodes the 3-dimensional position.
+    //
+    // As a result, the vector's size is n*3 where n = number of blocks in a single chunk.
+    //
+    // **Index Calculation:**
+    //
+    //  blocks[x + y + z] = block;
     blocks: Vec<Block>,
-    // The position (x, y, z) of the chunk. Chunk
-    // positions are completely independent of individual blocks.
-    // Position 0, 0, 0 is the center block that becomes the starting
+    // The base position for the entire chunk. Each block position is simply relative to it's
+    // children based on it's index encoding and thus a relative position of the chunk's base
     // position.
     pos: Vector3<f32>
 }
@@ -16,10 +22,15 @@ pub struct Chunk {
 impl Chunk {
     pub fn new(pos: Vector3<f32>) -> Chunk {
         Chunk {
-            blocks: Vec::with_capacity(500),
+            blocks: Vec::with_capacity(CHUNK_SIZE * 3),
             pos: pos
         }
     }
+
+    /// Return a block's position given it's index.
+    // pub fn block_pos(&self) -> Vector3<f32> {
+
+    // }
 
     #[inline]
     pub fn replace_index(&mut self, index: usize, block: Block) {
