@@ -1,4 +1,71 @@
 [root]
 name = "voxel"
 version = "0.0.1"
+dependencies = [
+ "cgmath 0.1.5 (git+https://github.com/bjz/cgmath-rs)",
+ "fps_counter 0.0.2 (git+https://github.com/PistonDevelopers/fps_counter)",
+ "noise 0.1.4 (git+https://github.com/bjz/noise-rs)",
+]
+
+[[package]]
+name = "cgmath"
+version = "0.1.5"
+source = "git+https://github.com/bjz/cgmath-rs#e29bb4c899b405f26b525e9fa856e1e423394292"
+dependencies = [
+ "num 0.1.24 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rand 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rustc-serialize 0.3.14 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "clock_ticks"
+version = "0.0.5"
+source = "git+https://github.com/tomaka/clock_ticks#462848731d99ed2f800e2e5a19e2d8ca3b11c90c"
+dependencies = [
+ "libc 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "fps_counter"
+version = "0.0.2"
+source = "git+https://github.com/PistonDevelopers/fps_counter#69e2334a697249fa611669595589baedda2ff571"
+dependencies = [
+ "clock_ticks 0.0.5 (git+https://github.com/tomaka/clock_ticks)",
+]
+
+[[package]]
+name = "libc"
+version = "0.1.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "noise"
+version = "0.1.4"
+source = "git+https://github.com/bjz/noise-rs#49e4fb0c323ed27c01bc0df2be1e07006ec4b3e6"
+dependencies = [
+ "num 0.1.24 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rand 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "num"
+version = "0.1.24"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "rand 0.3.8 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rustc-serialize 0.3.14 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "rand"
+version = "0.3.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "libc 0.1.6 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "rustc-serialize"
+version = "0.3.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 

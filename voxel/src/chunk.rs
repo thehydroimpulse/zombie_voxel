@@ -1,27 +1,38 @@
-use block::Block;
+use block::{Material, Block};
+use cgmath::Vector3;
 
-pub struct Chunk<B> {
-    blocks: Vec<B>,
+pub struct Chunk {
+    // size = 500
+    // Vec::with_capacity(500);
+    // blocks[x + y + z] = block;
+    blocks: Vec<Block>,
     // The position (x, y, z) of the chunk. Chunk
     // positions are completely independent of individual blocks.
     // Position 0, 0, 0 is the center block that becomes the starting
     // position.
-    pos: (f32, f32, f32)
+    pos: Vector3<f32>
 }
 
-impl<B: Block> Chunk<B> {
-    pub fn new(pos: (f32, f32, f32)) -> Chunk<B> {
+impl Chunk {
+    pub fn new(pos: Vector3<f32>) -> Chunk {
         Chunk {
-            blocks: Vec::new(),
+            blocks: Vec::with_capacity(500),
             pos: pos
         }
     }
 
-    pub fn add(&mut self, block: B) {
-        self.blocks.push(block);
+    #[inline]
+    pub fn replace_index(&mut self, index: usize, block: Block) {
+        self.blocks[index] = block;
     }
 
-    pub fn blocks(&self) -> &[B] {
+    #[inline]
+    pub fn replace_pos(&mut self, pos: Vector3<f32>, block: Block) {
+        let index = (pos.x + pos.y + pos.z) as usize;
+        self.replace_index(index, block)
+    }
+
+    pub fn blocks(&self) -> &[Block] {
         &self.blocks[..]
     }
 }

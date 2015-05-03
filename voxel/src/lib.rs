@@ -1,6 +1,7 @@
 #![feature(custom_derive)]
 
-pub mod octree;
+extern crate cgmath;
+
 pub mod block;
 pub mod chunk;
 
